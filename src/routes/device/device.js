@@ -46,7 +46,7 @@ router.get("/getall", async (req, res) => {
     res.end();
 });
 
-router.get("/switch", async (req, res) => {
+router.post("/switch", async (req, res) => {
     let mac = req.body.mac;
     let state = req.body.state;
     
@@ -97,7 +97,7 @@ router.get("/switch", async (req, res) => {
     res.end();
 });
 
-router.get("/startup", async (req, res) => {
+router.post("/startup", async (req, res) => {
     let mac = req.body.mac;
     let state = req.body.state;
     
