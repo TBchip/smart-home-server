@@ -10,7 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fs": "^0.0.1-security",
-    "path": "^0.12.7"
+    "axios": "^0.24.0",
+    "body-parser": "^1.19.1",
+    "express": "^4.17.1",
+    "local-devices": "^3.2.0",
+    "lowdb": "^3.0.0",
+    "node-schedule": "^2.1.0",
+    "path": "^0.12.7",
+    "uuid": "^8.3.2"
   }
 }
