@@ -1,5 +1,9 @@
 const path = require('path');
+const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
+
+const dbFolderPath = path.resolve(__dirname, '../../storage');
+const dbPath = path.resolve(dbFolderPath, 'db.json');
 
 let db;
 
@@ -12,8 +16,9 @@ let scheduleLinks;
 async function dbInit(){
     const lowdb = await import('lowdb');
 
-    const dbPath = path.resolve(__dirname, '../../storage/db.json');
-    const adapter = new lowdb.JSONFile(dbPath);
+    if(!fs.existsSync(dbFolderPath)) fs.mkdirSync(dbFolderPath);
+
+    const adapter = new lowdb.JSONFile(dbPath); 
     db = new lowdb.Low(adapter);
 
     await db.read();
