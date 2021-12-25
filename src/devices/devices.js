@@ -30,8 +30,8 @@ async function updateMacStorage(){
     }
     await Promise.all(requests);
     
-    storage.storeIncludedMacs(...include);
-    storage.storeExcludedMacs(...exclude);
+    await storage.storeIncludedMacs(...include);
+    await storage.storeExcludedMacs(...exclude);
 
     return true;
 }
@@ -48,12 +48,15 @@ async function getNetworkDevice(mac){
     else return false;
 }
 
-function getDeviceMacs(){
+function getAllDeviceMacs(){
     return storage.loadIncludedMacs();
 }
 
+function getAllDeviceStats(){
+    return storage.loadDeviceStats();
+}
 function getDeviceStats(mac){
-    return storage.loadDeviceStats()[mac] || false;
+    return getAllDeviceStats()[mac] || false;
 }
 async function saveDeviceStats(mac, stats){
     return await storage.storeDeviceStats(mac, stats);
@@ -76,6 +79,16 @@ async function updateDeviceStats(...macs){
         await saveDeviceStats(mac, newDeviceStats);
     }
     return succes;
+}
+
+function getAllDeviceNames(){
+    return storage.loadDeviceNames();
+}
+function getDeviceName(mac){
+    return getAllDeviceNames()[mac] || false;
+}
+async function saveDeviceName(mac, name){
+    return await storage.storeDeviceName(mac, name);
 }
 
 async function setDeviceState(state, ...macs){
@@ -127,11 +140,15 @@ module.exports = {
 
     getNetworkDevice: getNetworkDevice,
 
-    getDeviceMacs: getDeviceMacs,
+    getAllDeviceMacs: getAllDeviceMacs,
 
+    getAllDeviceStats: getAllDeviceStats,
     getDeviceStats: getDeviceStats,
-    saveDeviceStats: saveDeviceStats,
     updateDeviceStats: updateDeviceStats,
+
+    getAllDeviceNames: getAllDeviceNames,
+    getDeviceName: getDeviceName,
+    saveDeviceName: saveDeviceName,
 
     setDeviceState: setDeviceState,
     setDeviceStartup: setDeviceStartup,

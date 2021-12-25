@@ -10,6 +10,7 @@ let db;
 let includedMacs;
 let excludedMacs;
 let deviceStats;
+let deviceNames;
 let schedules;
 let scheduleLinks;
 
@@ -28,6 +29,7 @@ async function dbInit(){
             includedMacs: [],
             excludedMacs: [],
             deviceStats: {},
+            deviceNames: {},
             schedules: [],
             scheduleLinks: {}
         }
@@ -39,6 +41,7 @@ async function dbInit(){
     includedMacs = db.data.includedMacs;
     excludedMacs = db.data.excludedMacs;
     deviceStats = db.data.deviceStats;
+    deviceNames = db.data.deviceNames;
     schedules = db.data.schedules;
     scheduleLinks = db.data.scheduleLinks;
 
@@ -50,6 +53,10 @@ function loadIncludedMacs(){
 }
 async function storeIncludedMacs(...macs){
     includedMacs.push(...macs);
+    for(let mac of macs){
+        deviceStats[mac] = {};
+        deviceNames[mac] = "unnamed_" + uuidv4().substring(0, 6);
+    }
     await db.write();
     return true;
 }
@@ -68,6 +75,15 @@ function loadDeviceStats(){
 }
 async function storeDeviceStats(mac, newDeviceStats){
     deviceStats[mac] = newDeviceStats;
+    await db.write();
+    return true;
+}
+
+function loadDeviceNames(){
+    return deviceNames;
+}
+async function storeDeviceName(mac, deviceName){
+    deviceNames[mac] = deviceName;
     await db.write();
     return true;
 }
@@ -130,6 +146,9 @@ module.exports = {
 
     loadDeviceStats: loadDeviceStats,
     storeDeviceStats: storeDeviceStats,
+
+    loadDeviceNames: loadDeviceNames,
+    storeDeviceName: storeDeviceName,
 
     loadSchedules: loadSchedules,
     storeSchedule: storeSchedule,
