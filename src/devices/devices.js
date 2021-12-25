@@ -87,7 +87,7 @@ function getAllDeviceNames(){
 function getDeviceName(mac){
     return getAllDeviceNames()[mac] || false;
 }
-async function saveDeviceName(mac, name){
+async function setDeviceName(mac, name){
     return await storage.storeDeviceName(mac, name);
 }
 
@@ -148,7 +148,7 @@ module.exports = {
 
     getAllDeviceNames: getAllDeviceNames,
     getDeviceName: getDeviceName,
-    saveDeviceName: saveDeviceName,
+    setDeviceName: setDeviceName,
 
     setDeviceState: setDeviceState,
     setDeviceStartup: setDeviceStartup,

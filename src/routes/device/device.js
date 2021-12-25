@@ -33,12 +33,38 @@ router.get("/get", async (req, res) => {
     res.send(response);
     res.end();
 });
-router.get("/getall", async (req, res) => {    
+router.get("/getall", async (req, res) => {
     let deviceMacs = devices.getDeviceMacs();
     let response = {};
     for(let mac in deviceMacs){
         response[mac]['name'] = devices.getDeviceName(mac);
         response[mac]['stats'] = devices.getDeviceStats(mac);
+    }
+    
+    res.status(200);
+    res.send(response);
+    res.end();
+});
+
+router.post("/name", async (req, res) => {
+    let mac = req.body.mac;
+    let name = req.body.name;
+    
+    let error;
+    let errorMsg;
+    if(!mac) {
+        error = 400;
+        errorMsg = 'please supply {mac} as a http parameter';
+    }else if(!devices.deviceExists(mac)){
+        error = 400;
+        errorMsg = `no device with mac: ${mac}`;
+    }
+
+    await devices.setDeviceName(mac, name);
+
+    let response = {
+        'name': devices.getDeviceName(mac),
+        'stats': devices.getDeviceStats(mac)
     }
     
     res.status(200);
