@@ -28,8 +28,6 @@ async function initServer() {
     server.listen(port, () => {
         console.log(`SmartHome server listening on port: ${port}`)
     });
-
-    schedules.deleteSchedule('f91b1afe-2492-4043-8309-c48a36487bb3');
 }
 
 initServer();
