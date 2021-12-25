@@ -34,9 +34,10 @@ router.get("/get", async (req, res) => {
     res.end();
 });
 router.get("/getall", async (req, res) => {
-    let deviceMacs = devices.getDeviceMacs();
+    let deviceMacs = devices.getAllDeviceMacs();
     let response = {};
-    for(let mac in deviceMacs){
+    for(let mac of deviceMacs){
+        response[mac] = {};
         response[mac]['name'] = devices.getDeviceName(mac);
         response[mac]['stats'] = devices.getDeviceStats(mac);
     }
