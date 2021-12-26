@@ -73,7 +73,7 @@ router.post("/setname", async (req, res) => {
     res.end();
 });
 
-router.post("/switch", async (req, res) => {
+router.post("/state", async (req, res) => {
     let mac = req.body.mac;
     let state = req.body.state;
     
