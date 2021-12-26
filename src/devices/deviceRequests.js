@@ -1,6 +1,6 @@
 const {default: axios} = require('axios');
 
-async function updateDevice(ip){
+async function getDeviceStats(ip){
     const body = {
         'deviceid': '',
         'data': {}
@@ -28,8 +28,8 @@ async function updateDevice(ip){
 }
 
 async function setState(ip, state){
-    if(startup === 0) startup = "off";
-    else if(startup === 1) startup = "on";
+    if(state === 0) state = "off";
+    else if(state === 1) state = "on";
     const body = {
         "deviceid": "",
         "data": {
@@ -42,7 +42,7 @@ async function setState(ip, state){
         .post(`http://${ip}:8081/zeroconf/switch`, body)
         .then(async res => {
             if(res.status === 200) {
-                out = res.data.data;
+                out = await getDeviceStats(ip);
             } else {
                 console.log(`failed switching ${ip} ${state}:`);
                 console.log('code:', res.status);
@@ -74,7 +74,7 @@ async function setStartup(ip, startup){
         .post(`http://${ip}:8081/zeroconf/startup`, body)
         .then(async res => {
             if(res.status === 200) {
-                out = res.data.data;
+                out = await getDeviceStats(ip);
             } else {
                 console.log(`failed setting startup ${ip} ${startup}:`);
                 console.log('code:', res.status);
@@ -91,7 +91,7 @@ async function setStartup(ip, startup){
 }
 
 module.exports = {
-    updateDevice: updateDevice,
+    getDeviceStats: getDeviceStats,
     setState: setState,
     setStartup: setStartup
 }

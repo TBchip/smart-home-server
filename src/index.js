@@ -20,7 +20,7 @@ async function initServer() {
     //get mac adresses from network
     await devices.updateMacStorage();
     //get initial status for all devices
-    await devices.updateDeviceStats( devices.getAllDeviceMacs() );
+    await devices.updateDeviceStats( ...devices.getAllDeviceMacs() );
     //start all schedules
     await schedules.startAllSchedules();
     

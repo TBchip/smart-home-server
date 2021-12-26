@@ -70,7 +70,7 @@ async function updateDeviceStats(...macs){
             continue;
         }
 
-        let newDeviceStats = await deviceRequests.updateDevice(device.ip);
+        let newDeviceStats = await deviceRequests.getDeviceStats(device.ip);
         if(!newDeviceStats){
             succes = false;
             continue;
@@ -131,7 +131,7 @@ async function setDeviceStartup(state, ...macs){
 }
 
 function deviceExists(mac){
-    return getDeviceMacs().includes(mac);
+    return getAllDeviceMacs().includes(mac);
 }
 
 

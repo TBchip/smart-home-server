@@ -47,7 +47,7 @@ router.get("/getall", async (req, res) => {
     res.end();
 });
 
-router.post("/name", async (req, res) => {
+router.post("/setname", async (req, res) => {
     let mac = req.body.mac;
     let name = req.body.name;
     
@@ -83,7 +83,7 @@ router.post("/switch", async (req, res) => {
         error = 400;
         errorMsg = 'please supply {mac} as a http parameter';
     }
-    if(!state) {
+    if(state === undefined) { //cant be !state because 0 is false
         error = 400;
         errorMsg = 'please supply {state} as a http parameter';
     }
@@ -134,7 +134,7 @@ router.post("/startup", async (req, res) => {
         error = 400;
         errorMsg = 'please supply {mac} as a http parameter';
     }
-    if(!state) {
+    if(state === undefined) {
         error = 400;
         errorMsg = 'please supply {state} as a http parameter';
     }
