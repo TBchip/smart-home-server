@@ -9,10 +9,14 @@ let db;
 
 let includedMacs;
 let excludedMacs;
+
 let deviceStats;
 let deviceNames;
+
 let schedules;
 let scheduleLinks;
+
+let netDevices;
 
 async function dbInit(){
     const lowdb = await import('lowdb');
@@ -28,10 +32,14 @@ async function dbInit(){
         let defaultData = {
             includedMacs: [],
             excludedMacs: [],
+
             deviceStats: {},
             deviceNames: {},
+
             schedules: [],
-            scheduleLinks: {}
+            scheduleLinks: {},
+
+            netDevices: [],
         }
 
         db.data = defaultData;
@@ -40,10 +48,14 @@ async function dbInit(){
 
     includedMacs = db.data.includedMacs;
     excludedMacs = db.data.excludedMacs;
+
     deviceStats = db.data.deviceStats;
     deviceNames = db.data.deviceNames;
+
     schedules = db.data.schedules;
     scheduleLinks = db.data.scheduleLinks;
+
+    netDevices = db.data.netDevices;
 
     return true;
 }
@@ -134,6 +146,16 @@ async function deleteScheduleLink(mac){
     return true;
 }
 
+function loadNetDevices(){
+    return netDevices;
+}
+async function storeNetDevices(newNetDevices){
+    netDevices.filter(_ => false); //clear array
+    netDevices.push(...newNetDevices); //add new net devices
+    await db.write();
+    return true;
+}
+
 
 module.exports = {
     dbInit: dbInit,
@@ -157,5 +179,8 @@ module.exports = {
 
     loadScheduleLinks: loadScheduleLinks,
     storeScheduleLink: storeScheduleLink,
-    deleteScheduleLink: deleteScheduleLink
+    deleteScheduleLink: deleteScheduleLink,
+
+    loadNetDevices: loadNetDevices,
+    storeNetDevices: storeNetDevices
 }

@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const nodeSchedule = require('node-schedule');
 
 const devices = require('./devices/devices');
 const schedules = require('./schedules/schedules');
@@ -17,6 +18,8 @@ server.use('/', routes);
 async function initServer() {
     //init db
     await storage.dbInit();
+    //update net devices
+    await devices.updateNetDevices();
     //get mac adresses from network
     await devices.updateMacStorage();
     //get initial status for all devices
@@ -28,6 +31,14 @@ async function initServer() {
     server.listen(port, () => {
         console.log(`SmartHome server listening on port: ${port}`)
     });
+
+    //update net devices
+    nodeSchedule.scheduleJob('*/5 * * * *', devices.updateNetDevices); //every 5 minutes
 }
 
 initServer();
+
+process.on('SIGINT', () => {
+    nodeSchedule.gracefulShutdown()
+    .then(() => process.exit(0));
+});

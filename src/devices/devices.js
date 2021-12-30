@@ -6,7 +6,7 @@ const deviceRequests = require('./deviceRequests');
 
 
 async function updateMacStorage(){
-    let allDevices = await getAllNetworkDevices();
+    let allDevices = getNetDevices();
 
     let storedMacs = [...storage.loadIncludedMacs(), ...storage.loadExcludedMacs()];
 
@@ -36,16 +36,18 @@ async function updateMacStorage(){
     return true;
 }
 
-async function getAllNetworkDevices(){ 
-    let devices = await find(null, true);
-    return devices;
+function getNetDevices(){ 
+    return storage.loadNetDevices();
 }
-async function getNetworkDevice(mac){
-    let allDevices = await getAllNetworkDevices();
-    let device = allDevices.find(val => val.mac === mac);
-
-    if(device) return device;
-    else return false;
+function getNetDevice(mac){ 
+    let devices = getNetDevices();
+    return devices.find(val => val.mac === mac);
+}
+async function updateNetDevices(){
+    console.log('update');
+    let devices = await find(null, true);
+    await storage.storeNetDevices(devices);
+    return true;
 }
 
 function getAllDeviceMacs(){
@@ -64,7 +66,7 @@ async function saveDeviceStats(mac, stats){
 async function updateDeviceStats(...macs){
     let succes = true;
     for(let mac of macs){
-        let device = await getNetworkDevice(mac);
+        let device = getNetDevice(mac);
         if(!device){
             succes = false;
             continue;
@@ -94,13 +96,18 @@ async function setDeviceName(mac, name){
 async function setDeviceState(state, ...macs){
     let succes = true;
     for(let mac of macs){
-        let device = await getNetworkDevice(mac);
+        let device = await getNetDevice(mac);
         if(!device){
             succes = false;
             continue;
         }
 
-        let newDeviceStats = await deviceRequests.setState(device.ip, state);
+        if( !await deviceRequests.setState(device.ip, state) ){
+            succes = false;
+            continue;
+        }
+
+        let newDeviceStats = await deviceRequests.getDeviceStats(device.ip);
         if(!newDeviceStats){
             succes = false;
             continue;
@@ -113,13 +120,18 @@ async function setDeviceState(state, ...macs){
 async function setDeviceStartup(state, ...macs){
     let succes = true;
     for(let mac of macs){
-        let device = await getNetworkDevice(mac);
+        let device = await getNetDevice(mac);
         if(!device){
             succes = false;
             continue;
         }
 
-        let newDeviceStats = await deviceRequests.setStartup(device.ip, state);
+        if( !await deviceRequests.setStartup(device.ip, state) ){
+            succes = false;
+            continue;
+        }
+
+        let newDeviceStats = await deviceRequests.getDeviceStats(device.ip);
         if(!newDeviceStats){
             succes = false;
             continue;
@@ -138,7 +150,8 @@ function deviceExists(mac){
 module.exports = {
     updateMacStorage: updateMacStorage,
 
-    getNetworkDevice: getNetworkDevice,
+    getNetDevices: getNetDevices,
+    updateNetDevices: updateNetDevices,
 
     getAllDeviceMacs: getAllDeviceMacs,
 
