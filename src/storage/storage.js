@@ -149,8 +149,8 @@ async function deleteScheduleLink(mac){
 function loadNetDevices(){
     return netDevices;
 }
-async function storeNetDevices(newNetDevices){
-    netDevices.filter(_ => false); //clear array
+async function storeNetDevices(newNetDevices){ 
+    netDevices.length = 0; //clear array
     netDevices.push(...newNetDevices); //add new net devices
     await db.write();
     return true;
