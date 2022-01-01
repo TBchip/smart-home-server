@@ -60,6 +60,13 @@ router.post("/setname", async (req, res) => {
         error = 400;
         errorMsg = `no device with mac: ${mac}`;
     }
+    
+    if(error){
+        res.status(error);
+        res.send(errorMsg);
+        res.end();
+        return;
+    }
 
     await devices.setDeviceName(mac, name);
 

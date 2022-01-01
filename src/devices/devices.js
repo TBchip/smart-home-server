@@ -44,7 +44,6 @@ function getNetDevice(mac){
     return devices.find(val => val.mac === mac);
 }
 async function updateNetDevices(){
-    console.log('update');
     let devices = await find(null, true);
     await storage.storeNetDevices(devices);
     return true;
