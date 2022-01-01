@@ -47,7 +47,7 @@ router.get("/getall", async (req, res) => {
     res.end();
 });
 
-router.post("/setname", async (req, res) => {
+router.post("/name", async (req, res) => {
     let mac = req.body.mac;
     let name = req.body.name;
     
