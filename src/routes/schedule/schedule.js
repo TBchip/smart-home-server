@@ -138,7 +138,7 @@ router.post("/link", async (req, res) => {
 
     await schedules.linkMac(uuid, mac);
 
-    let schedule = devices.getLinkedSchedule(mac);
+    let schedule = schedules.getLinkedSchedule(mac);
     
     res.status(200);
     res.send(schedule);
@@ -167,7 +167,7 @@ router.post("/unlink", async (req, res) => {
 
     await schedules.unlinkMac(mac);
 
-    let schedule = devices.getLinkedSchedule(mac);
+    let schedule = schedules.getLinkedSchedule(mac);
     
     res.status(200);
     res.send(schedule);

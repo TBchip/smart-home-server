@@ -142,16 +142,6 @@ async function setDeviceStartup(state, ...macs){
     return succes;
 }
 
-function getLinkedSchedule(mac){
-    let allScheduleLinks = schedules.getLinks();
-    for(let uuid in allScheduleLinks){
-        if(allScheduleLinks[uuid].includes(mac)){
-            return uuid;
-        }
-    }
-    return 'unlinked';
-}
-
 function deviceExists(mac){
     return getAllDeviceMacs().includes(mac);
 }
@@ -175,8 +165,6 @@ module.exports = {
 
     setDeviceState: setDeviceState,
     setDeviceStartup: setDeviceStartup,
-
-    getLinkedSchedule: getLinkedSchedule,
 
     deviceExists: deviceExists
 }

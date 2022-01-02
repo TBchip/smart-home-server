@@ -42,10 +42,24 @@ function getLinkedMacs(uuid){
 }
 async function linkMac(uuid, mac){
     await unlinkMac(mac);
-    return await storage.storeScheduleLink(uuid, mac);
+    let out = await storage.storeScheduleLink(uuid, mac);
+    restartSchedule(uuid);
+    return out;
 }
 async function unlinkMac(mac){
-    return await storage.deleteScheduleLink(mac);
+    let oldLinkedSchedule = getLinkedSchedule(mac);
+    let out = await storage.deleteScheduleLink(mac);
+    if(oldLinkedSchedule != 'unlinked') restartSchedule(oldLinkedSchedule);
+    return out;
+}
+function getLinkedSchedule(mac){
+    let allScheduleLinks = getLinks();
+    for(let uuid in allScheduleLinks){
+        if(allScheduleLinks[uuid].includes(mac)){
+            return uuid;
+        }
+    }
+    return 'unlinked';
 }
 
 function startSchedule(uuid){
@@ -105,6 +119,7 @@ module.exports = {
     scheduleExists: scheduleExists,
     saveSchedule: saveSchedule,
     deleteSchedule: deleteSchedule,
+    getLinkedSchedule: getLinkedSchedule,
 
     getLinks: getLinks,
     linkMac: linkMac,

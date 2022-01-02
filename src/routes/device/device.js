@@ -1,6 +1,7 @@
 const express = require('express');
 
 const devices = require('../../devices/devices');
+const schedules = require('../../schedules/schedules');
 
 let router = express.Router();
 
@@ -27,7 +28,7 @@ router.get("/get", async (req, res) => {
     let response = {
         'name': devices.getDeviceName(mac),
         'stats': devices.getDeviceStats(mac),
-        'schedule': devices.getLinkedSchedule(mac)
+        'schedule': schedules.getLinkedSchedule(mac)
     }
     
     res.status(200);
@@ -41,7 +42,7 @@ router.get("/getall", async (req, res) => {
         response[mac] = {
             'name': devices.getDeviceName(mac),
             'stats': devices.getDeviceStats(mac),
-            'schedule': devices.getLinkedSchedule(mac)
+            'schedule': schedules.getLinkedSchedule(mac)
         };
     }
     
@@ -76,7 +77,7 @@ router.post("/name", async (req, res) => {
     let response = {
         'name': devices.getDeviceName(mac),
         'stats': devices.getDeviceStats(mac),
-        'schedule': devices.getLinkedSchedule(mac)
+        'schedule': schedules.getLinkedSchedule(mac)
     };
     
     res.status(200);
@@ -132,7 +133,7 @@ router.post("/state", async (req, res) => {
     let response = {
         'name': devices.getDeviceName(mac),
         'stats': devices.getDeviceStats(mac),
-        'schedule': devices.getLinkedSchedule(mac)
+        'schedule': schedules.getLinkedSchedule(mac)
     };
 
     res.status(200);
@@ -188,7 +189,7 @@ router.post("/startup", async (req, res) => {
     let response = {
         'name': devices.getDeviceName(mac),
         'stats': devices.getDeviceStats(mac),
-        'schedule': devices.getLinkedSchedule(mac)
+        'schedule': schedules.getLinkedSchedule(mac)
     };
 
     res.status(200);
