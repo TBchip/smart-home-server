@@ -3,6 +3,7 @@ const {default: axios} = require('axios');
 
 const storage = require('../storage/storage');
 const deviceRequests = require('./deviceRequests');
+const schedules = require('../schedules/schedules');
 
 
 async function updateMacStorage(){
@@ -141,6 +142,16 @@ async function setDeviceStartup(state, ...macs){
     return succes;
 }
 
+function getLinkedSchedule(mac){
+    let allScheduleLinks = schedules.getLinks();
+    for(let uuid in allScheduleLinks){
+        if(allScheduleLinks[uuid].includes(mac)){
+            return uuid;
+        }
+    }
+    return undefined;
+}
+
 function deviceExists(mac){
     return getAllDeviceMacs().includes(mac);
 }
@@ -164,6 +175,8 @@ module.exports = {
 
     setDeviceState: setDeviceState,
     setDeviceStartup: setDeviceStartup,
+
+    getLinkedSchedule: getLinkedSchedule,
 
     deviceExists: deviceExists
 }

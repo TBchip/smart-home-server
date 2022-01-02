@@ -26,7 +26,8 @@ router.get("/get", async (req, res) => {
 
     let response = {
         'name': devices.getDeviceName(mac),
-        'stats': devices.getDeviceStats(mac)
+        'stats': devices.getDeviceStats(mac),
+        'schedule': devices.getLinkedSchedule(mac)
     }
     
     res.status(200);
@@ -39,7 +40,8 @@ router.get("/getall", async (req, res) => {
     for(let mac of deviceMacs){
         response[mac] = {
             'name': devices.getDeviceName(mac),
-            'stats': devices.getDeviceStats(mac)
+            'stats': devices.getDeviceStats(mac),
+            'schedule': devices.getLinkedSchedule(mac)
         };
     }
     

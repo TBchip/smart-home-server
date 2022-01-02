@@ -5,6 +5,40 @@ const devices = require('../../devices/devices');
 
 let router = express.Router();
 
+router.get("/get", async (req, res) => {
+    let uuid = req.body.uuid;
+
+    let error;
+    let errorMsg;
+    if(!uuid) {
+        error = 400;
+        errorMsg = 'please supply {uuid}';
+    }else if(!schedules.scheduleExists(uuid)){
+        error = 400;
+        errorMsg = `no schedule with uuid: ${uuid}`;
+    }
+
+    if(error){
+        res.status(error);
+        res.send(errorMsg);
+        res.end();
+        return;
+    }
+
+    let schedule = schedules.getSchedule(uuid);
+    
+    res.status(200);
+    res.send(schedule);
+    res.end();
+});
+router.get("/getall", async (req, res) => {
+    let allSchedules = schedules.getSchedules();
+    
+    res.status(200);
+    res.send(allSchedules);
+    res.end();
+});
+
 router.post("/save", async (req, res) => {
     let schedule = req.body.schedule;
     let uuid = req.body.uuid;

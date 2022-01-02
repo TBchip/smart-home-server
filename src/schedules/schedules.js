@@ -62,7 +62,7 @@ function startSchedule(uuid){
         let jobName = schedule.uuid + '_' + uuidv4();
         nodeSchedule.scheduleJob(jobName, rule, function(){
             let macs = getLinkedMacs(schedule.uuid);
-            devices.setDeviceState(1, macs);
+            devices.setDeviceState(1, ...macs);
         });
     }
     for(let event of schedule.off){
@@ -76,7 +76,8 @@ function startSchedule(uuid){
         let jobName = schedule.uuid + '_' + uuidv4();
         nodeSchedule.scheduleJob(jobName, rule, function(){
             let macs = getLinkedMacs(schedule.uuid);
-            devices.setDeviceState(0, macs);
+            console.log(macs, 0);
+            devices.setDeviceState(0, ...macs);
         });
     }
     return true;
@@ -100,6 +101,7 @@ function startAllSchedules(){
 
 module.exports = {
     getSchedules: getSchedules,
+    getSchedule: getSchedule,
     scheduleExists: scheduleExists,
     saveSchedule: saveSchedule,
     deleteSchedule: deleteSchedule,
