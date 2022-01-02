@@ -75,7 +75,8 @@ router.post("/name", async (req, res) => {
 
     let response = {
         'name': devices.getDeviceName(mac),
-        'stats': devices.getDeviceStats(mac)
+        'stats': devices.getDeviceStats(mac),
+        'schedule': devices.getLinkedSchedule(mac)
     };
     
     res.status(200);
@@ -130,7 +131,8 @@ router.post("/state", async (req, res) => {
 
     let response = {
         'name': devices.getDeviceName(mac),
-        'stats': devices.getDeviceStats(mac)
+        'stats': devices.getDeviceStats(mac),
+        'schedule': devices.getLinkedSchedule(mac)
     };
 
     res.status(200);
@@ -185,7 +187,8 @@ router.post("/startup", async (req, res) => {
 
     let response = {
         'name': devices.getDeviceName(mac),
-        'stats': devices.getDeviceStats(mac)
+        'stats': devices.getDeviceStats(mac),
+        'schedule': devices.getLinkedSchedule(mac)
     };
 
     res.status(200);

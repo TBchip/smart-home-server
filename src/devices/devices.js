@@ -149,7 +149,7 @@ function getLinkedSchedule(mac){
             return uuid;
         }
     }
-    return undefined;
+    return 'unlinked';
 }
 
 function deviceExists(mac){

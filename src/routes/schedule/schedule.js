@@ -107,7 +107,7 @@ router.post("/delete", async (req, res) => {
     res.end();
 });
 
-router.post("/link", async (req, res) => {
+router.post("/link", async (req, res) => {    
     let uuid = req.body.uuid;
     let mac = req.body.mac;
 
@@ -138,10 +138,10 @@ router.post("/link", async (req, res) => {
 
     await schedules.linkMac(uuid, mac);
 
-    let allSchedules = schedules.getLinks();
+    let schedule = devices.getLinkedSchedule(mac);
     
     res.status(200);
-    res.send(allSchedules);
+    res.send(schedule);
     res.end();
 });
 
@@ -167,10 +167,10 @@ router.post("/unlink", async (req, res) => {
 
     await schedules.unlinkMac(mac);
 
-    let allSchedules = schedules.getLinks();
+    let schedule = devices.getLinkedSchedule(mac);
     
     res.status(200);
-    res.send(allSchedules);
+    res.send(schedule);
     res.end();
 });
 
