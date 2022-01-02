@@ -37,9 +37,10 @@ router.get("/getall", async (req, res) => {
     let deviceMacs = devices.getAllDeviceMacs();
     let response = {};
     for(let mac of deviceMacs){
-        response[mac] = {};
-        response[mac]['name'] = devices.getDeviceName(mac);
-        response[mac]['stats'] = devices.getDeviceStats(mac);
+        response[mac] = {
+            'name': devices.getDeviceName(mac),
+            'stats': devices.getDeviceStats(mac)
+        };
     }
     
     res.status(200);
@@ -73,7 +74,7 @@ router.post("/name", async (req, res) => {
     let response = {
         'name': devices.getDeviceName(mac),
         'stats': devices.getDeviceStats(mac)
-    }
+    };
     
     res.status(200);
     res.send(response);
@@ -125,9 +126,13 @@ router.post("/state", async (req, res) => {
         return;
     }
 
-    let deviceStats = devices.getDeviceStats(mac); //cannot give error because just succesfully updated
+    let response = {
+        'name': devices.getDeviceName(mac),
+        'stats': devices.getDeviceStats(mac)
+    };
+
     res.status(200);
-    res.send(deviceStats);
+    res.send(response);
     res.end();
 });
 
@@ -176,9 +181,13 @@ router.post("/startup", async (req, res) => {
         return;
     }
 
-    let deviceStats = devices.getDeviceStats(mac); //cannot give error because just succesfully updated
+    let response = {
+        'name': devices.getDeviceName(mac),
+        'stats': devices.getDeviceStats(mac)
+    };
+
     res.status(200);
-    res.send(deviceStats);
+    res.send(response);
     res.end();
 });
 
