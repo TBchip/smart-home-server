@@ -41,7 +41,6 @@ router.get("/getall", async (req, res) => {
 
 router.post("/save", async (req, res) => {
     let schedule = req.body.schedule;
-    let uuid = req.body.uuid;
 
     let error;
     let errorMsg;
@@ -53,6 +52,7 @@ router.post("/save", async (req, res) => {
         errorMsg = 'schedule should have on and off arrays';
     }
     
+    let uuid = schedule.uuid;
     if(uuid && !schedules.scheduleExists(uuid)){
         error = 400;
         errorMsg = `no schedule with uuid: ${uuid}`;

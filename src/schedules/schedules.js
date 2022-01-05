@@ -90,7 +90,6 @@ function startSchedule(uuid){
         let jobName = schedule.uuid + '_' + uuidv4();
         nodeSchedule.scheduleJob(jobName, rule, function(){
             let macs = getLinkedMacs(schedule.uuid);
-            console.log(macs, 0);
             devices.setDeviceState(0, ...macs);
         });
     }

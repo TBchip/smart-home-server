@@ -3,8 +3,6 @@ const {default: axios} = require('axios');
 
 const storage = require('../storage/storage');
 const deviceRequests = require('./deviceRequests');
-const schedules = require('../schedules/schedules');
-
 
 async function updateMacStorage(){
     let allDevices = getNetDevices();
