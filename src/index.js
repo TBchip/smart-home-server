@@ -32,8 +32,10 @@ async function initServer() {
         console.log(`SmartHome server listening on port: ${port}`)
     });
 
-    //update net devices
-    nodeSchedule.scheduleJob('*/5 * * * *', devices.updateNetDevices); //every 5 minutes
+    //update every 5 minutes
+    let updateRule = '*/5 * * * *';
+    nodeSchedule.scheduleJob(updateRule, devices.updateNetDevices);
+    nodeSchedule.scheduleJob(updateRule, devices.updateMacStorage);
 }
 
 initServer();
